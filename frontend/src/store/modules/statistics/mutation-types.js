@@ -1,0 +1,1 @@
+export const SET_CARDS_DATA = 'SET_CARDS_DATA'
