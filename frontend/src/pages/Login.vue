@@ -17,12 +17,12 @@
 
           <div class="col-md-7 px-md-5">
             <div class="row px-md-3 mb-4">
-              <dv class="col-12 register text-center mt-4">
+              <div class="col-12 register text-center mt-4">
                 <p class="float-md-right">
                   Don't have an account?
                   <a href="" style="color: #F3BB45;">Sign up</a>
                 </p>
-              </dv>
+              </div>
               <div class="col-12">
                 <div class="row px-3 py-2">
                   <div class="header col text-center">

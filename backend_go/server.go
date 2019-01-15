@@ -12,8 +12,14 @@ import (
 	"github.com/leekchan/timeutil"
 )
 
+type Error struct {
+	Field   string `json:"field"`
+	Message string `json:"message"`
+}
+
 type User struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type StatsCard struct {
@@ -30,20 +36,35 @@ func randomNumber(min int, max int) int {
 	return rand.Intn(max) + min
 }
 
-func login(c echo.Context) error {
+func login(c echo.Context) (err error) {
 	const email = "test@email.com"
 	const password = "password"
 
-	if email != strings.ToLower(c.FormValue("email")) {
-		return echo.NewHTTPError(http.StatusUnauthorized, "Email does not exist.")
+	u := new(User)
+	if err = c.Bind(u); err != nil {
+		return
 	}
-	if password != c.FormValue("password") {
-		return echo.NewHTTPError(http.StatusUnauthorized, "Password incorrect.")
+
+	data := []Error{}
+
+	if email != strings.ToLower(u.Email) {
+		data = append(data, Error{
+			Field:   "email",
+			Message: "Email does not exist",
+		})
+		return echo.NewHTTPError(http.StatusUnauthorized, data)
 	}
-	u := &User{
+	if password != u.Password {
+		data = append(data, Error{
+			Field:   "password",
+			Message: "Password incorrect.",
+		})
+		return echo.NewHTTPError(http.StatusUnauthorized, data)
+	}
+	user := &User{
 		Email: email,
 	}
-	return c.JSON(http.StatusOK, u)
+	return c.JSON(http.StatusOK, user)
 }
 
 func randomUpdatedValue() time.Time {
@@ -152,7 +173,7 @@ func emailStatistics(c echo.Context) error {
 func salesData(c echo.Context) error {
 	type SalesData struct {
 		Labels []string `json:"labels"`
-		Series [][]int    `json:"series"`
+		Series [][]int  `json:"series"`
 	}
 	data := SalesData{
 		Labels: []string{
