@@ -22,6 +22,12 @@
         <i :class="addonRightIcon" class="input-group-text"></i>
       </span>
     </slot>
+    <slot name="errorMessage">
+      <small
+        v-if="errorMessage"
+        class="form-text error-message"
+      >{{ errorMessage }}</small>
+    </slot>
   </div>
 </template>
 <script>
@@ -31,6 +37,7 @@ export default {
   props: {
     label: String,
     value: [String, Number],
+    errorMessage: String,
     addonRightIcon: String,
     addonLeftIcon: String
   },
@@ -47,5 +54,10 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
+.has-error {
+  .error-message {
+    color: #EB5E28;
+  }
+}
 </style>
