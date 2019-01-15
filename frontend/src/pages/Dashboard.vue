@@ -167,7 +167,7 @@ export default {
     endDate() {
       return this.dateRange[1].toISOString();
     },
-    dateRangePyalod() {
+    dateRangePayload() {
       return {
         start: this.startDate,
         end: this.endDate

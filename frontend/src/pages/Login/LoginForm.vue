@@ -43,38 +43,42 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       formData: {
-        email: '',
-        password: ''
+        email: "",
+        password: ""
       },
       errors: []
-    }
+    };
   },
   computed: {
-    disableSubmit () {
-      return !this.formData.email || !this.formData.password || this.loading
+    disableSubmit() {
+      return !this.formData.email || !this.formData.password || this.loading;
     },
-    emailError () {
-      return this.errors.find(error => error.field === "email") || {}
+    emailError() {
+      return this.errors.find(error => error.field === "email") || {};
     },
-    passwordError () {
-      return this.errors.find(error => error.field === "password") || {}
+    passwordError() {
+      return this.errors.find(error => error.field === "password") || {};
     }
   },
   methods: {
-    login () {
-      this.errors = []
-      this.loading = true
-      this.$store.dispatch('auth/login', this.formData).then(response => {
-        this.$router.push({ name: "dashboard" })
-      }).catch(err => {
-        this.errors = err.response.data
-      }).finally(() => {
-        this.loading = false
-      })
+    login() {
+      this.errors = [];
+      this.loading = true;
+      this.$store
+        .dispatch("auth/login", this.formData)
+        .then(response => {
+          this.$router.push({ name: "dashboard" });
+        })
+        .catch(err => {
+          this.errors = err.response.data;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   }
 };

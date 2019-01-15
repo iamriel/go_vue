@@ -47,8 +47,7 @@
 </template>
 
 <script>
-
-import LoginForm from './Login/LoginForm'
+import LoginForm from "./Login/LoginForm";
 
 export default {
   components: {
@@ -59,14 +58,14 @@ export default {
 
 <style lang="scss" scoped>
 .logo-container {
-  background: url('../assets/img/app/background-with-squares.svg') no-repeat;
+  background: url("../assets/img/app/background-with-squares.svg") no-repeat;
   background-size: 100%;
   font-size: 16px;
   height: 350px;
 
   .title {
     h1 {
-      background: url('../assets/img/app/logo.png') no-repeat center center;
+      background: url("../assets/img/app/logo.png") no-repeat center center;
       width: 100%;
       height: 75px;
     }
@@ -88,7 +87,8 @@ export default {
   }
 
   @media (min-width: 768px) {
-    background: url('../assets/img/app/squares-background.svg') no-repeat center center;
+    background: url("../assets/img/app/squares-background.svg") no-repeat center
+      center;
     height: 100%;
 
     .row {
@@ -124,5 +124,4 @@ export default {
     }
   }
 }
-
 </style>

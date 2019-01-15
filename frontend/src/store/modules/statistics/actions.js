@@ -18,10 +18,10 @@ export const fetchCardsData = ({ commit }) => {
   });
 };
 
-export const fetchUsersBehavior = ({ commit }) => {
+export const fetchUsersBehavior = ({ commit }, payload) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${API_URL}/statistics/users-behavior`)
+      .get(`${API_URL}/statistics/users-behavior`, { params: payload })
       .then(response => {
         commit(types.SET_USERS_BEHAVIOR, response.data);
         resolve(response);
@@ -32,10 +32,10 @@ export const fetchUsersBehavior = ({ commit }) => {
   });
 };
 
-export const fetchEmailStatistics = ({ commit }) => {
+export const fetchEmailStatistics = ({ commit }, payload) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${API_URL}/statistics/email`)
+      .get(`${API_URL}/statistics/email`, { params: payload })
       .then(response => {
         commit(types.SET_EMAIL_STATISTICS, response.data);
         resolve(response);
@@ -46,10 +46,10 @@ export const fetchEmailStatistics = ({ commit }) => {
   });
 };
 
-export const fetchSalesData = ({ commit }) => {
+export const fetchSalesData = ({ commit }, payload) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${API_URL}/statistics/sales`)
+      .get(`${API_URL}/statistics/sales`, { params: payload })
       .then(response => {
         commit(types.SET_SALES_DATA, response.data);
         resolve(response);

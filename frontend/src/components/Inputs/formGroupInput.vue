@@ -57,7 +57,7 @@ export default {
 <style lang="scss" scoped>
 .has-error {
   .error-message {
-    color: #EB5E28;
+    color: #eb5e28;
   }
 }
 </style>

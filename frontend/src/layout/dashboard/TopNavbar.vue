@@ -29,20 +29,20 @@
             <a class="dropdown-item" href="#">Notification 4</a>
             <a class="dropdown-item" href="#">Another notification</a>
           </drop-down>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="ti-settings"></i>
-              <p>
-                Settings
-              </p>
-            </a>
-          </li>
+
+          <log-out/>
+
         </ul>
       </div>
     </div></nav>
 </template>
 <script>
+import LogOut from "./LogOut";
+
 export default {
+  components: {
+    LogOut
+  },
   computed: {
     routeName() {
       const { name } = this.$route;

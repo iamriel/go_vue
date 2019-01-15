@@ -27,12 +27,19 @@
           <a class="dropdown-item">Notification 4</a>
           <a class="dropdown-item">Another notification</a>
         </drop-down>
-        <li class="nav-item">
-          <a class="nav-link">
-            <i class="ti-settings"></i>
-            <p>Settings</p>
-          </a>
-        </li>
+        <drop-down class="nav-item"
+          title="5 Notifications"
+          title-classes="nav-link"
+          icon="ti-bell">
+          <a class="dropdown-item">Notification 1</a>
+          <a class="dropdown-item">Notification 2</a>
+          <a class="dropdown-item">Notification 3</a>
+          <a class="dropdown-item">Notification 4</a>
+          <a class="dropdown-item">Another notification</a>
+        </drop-down>
+
+        <log-out/>
+
         <li class="divider"></li>
       </mobile-menu>
     </side-bar>
@@ -54,12 +61,14 @@ import TopNavbar from "./TopNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import MobileMenu from "./MobileMenu";
+import LogOut from "./LogOut";
 export default {
   components: {
     TopNavbar,
     ContentFooter,
     DashboardContent,
-    MobileMenu
+    MobileMenu,
+    LogOut
   },
   methods: {
     toggleSidebar() {

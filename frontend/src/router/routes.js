@@ -24,36 +24,43 @@ const routes = [
       {
         path: "dashboard",
         name: "dashboard",
+        meta: { requiresAuth: true },
         component: Dashboard
       },
       {
         path: "stats",
         name: "stats",
+        meta: { requiresAuth: true },
         component: UserProfile
       },
       {
         path: "notifications",
         name: "notifications",
+        meta: { requiresAuth: true },
         component: Notifications
       },
       {
         path: "icons",
         name: "icons",
+        meta: { requiresAuth: true },
         component: Icons
       },
       {
         path: "maps",
         name: "maps",
+        meta: { requiresAuth: true },
         component: Maps
       },
       {
         path: "typography",
         name: "typography",
+        meta: { requiresAuth: true },
         component: Typography
       },
       {
         path: "table-list",
         name: "table-list",
+        meta: { requiresAuth: true },
         component: TableList
       }
     ]
@@ -63,7 +70,10 @@ const routes = [
     name: "login",
     component: Login
   },
-  { path: "*", component: NotFound }
+  {
+    path: "*",
+    component: NotFound
+  }
 ];
 
 /**
