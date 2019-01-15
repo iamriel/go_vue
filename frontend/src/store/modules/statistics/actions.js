@@ -25,3 +25,25 @@ export const fetchUsersBehavior = ({ commit }) => {
     })
   })
 }
+
+export const fetchEmailStatistics = ({ commit }) => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${API_URL}/statistics/email`).then(response => {
+      commit(types.SET_EMAIL_STATISTICS, response.data)
+      resolve(response)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+export const fetchSalesData = ({ commit }) => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${API_URL}/statistics/sales`).then(response => {
+      commit(types.SET_SALES_DATA, response.data)
+      resolve(response)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}

@@ -7,6 +7,14 @@ const initialState = {
   usersBehavior: {
     labels: [],
     series: []
+  },
+  emailStatistics: {
+    labels: [],
+    series: []
+  },
+  salesData: {
+    labels: [],
+    series: []
   }
 }
 

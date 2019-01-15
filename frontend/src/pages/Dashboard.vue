@@ -42,10 +42,13 @@
       </div>
 
       <div class="col-md-6 col-12">
-        <chart-card title="Email Statistics"
-                    sub-title="Last campaign performance"
-                    :chart-data="preferencesChart.data"
-                    chart-type="Pie">
+        <chart-card
+          v-if="!isFetchingEmailStatistics"
+          title="Email Statistics"
+          sub-title="Last campaign performance"
+          :chart-data="emailStatistics"
+          chart-type="Pie"
+        >
           <span slot="footer">
             <i class="ti-timer"></i> Campaign set 2 days ago</span>
           <div slot="legend">
@@ -57,10 +60,13 @@
       </div>
 
       <div class="col-md-6 col-12">
-        <chart-card title="2015 Sales"
-                    sub-title="All products including Taxes"
-                    :chart-data="activityChart.data"
-                    :chart-options="activityChart.options">
+        <chart-card
+          v-if="!isFetchingSalesData"
+          title="2015 Sales"
+          sub-title="All products including Taxes"
+          :chart-data="salesData"
+          :chart-options="salesChart.options"
+        >
           <span slot="footer">
             <i class="ti-check"></i> Data information certified
           </span>
@@ -98,18 +104,38 @@ export default {
       }).finally(() => {
         this.isFetchingUsersBehavior = false
       })
+    },
+    fetchEmailStatistics () {
+      this.isFetchingEmailStatistics = true
+      this.$store.dispatch('statistics/fetchEmailStatistics').catch(err => {
+        console.log(err)
+      }).finally(() => {
+        this.isFetchingEmailStatistics = false
+      })
+    },
+    fetchSalesData () {
+      this.isFetchingEmailStatistics = true
+      this.$store.dispatch('statistics/fetchSalesData').catch(err => {
+        console.log(err)
+      }).finally(() => {
+        this.isFetchingSalesData = false
+      })
     }
   },
   mounted () {
     this.fetchCardsData()
     this.fetchUsersBehavior()
+    this.fetchEmailStatistics()
+    this.fetchSalesData()
   },
   computed: {
-    ...mapGetters('statistics', ['cardsData', 'usersBehavior'])
+    ...mapGetters('statistics', ['cardsData', 'usersBehavior', 'emailStatistics', 'salesData'])
   },
   data() {
     return {
       isFetchingUsersBehavior: true,
+      isFetchingEmailStatistics: true,
+      isFetchingSalesData: true,
       usersChart: {
         options: {
           low: 0,
@@ -126,27 +152,7 @@ export default {
           showPoint: false
         }
       },
-      activityChart: {
-        data: {
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "Mai",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ],
-          series: [
-            [542, 543, 520, 680, 653, 753, 326, 434, 568, 610, 756, 895],
-            [230, 293, 380, 480, 503, 553, 600, 664, 698, 710, 736, 795]
-          ]
-        },
+      salesChart: {
         options: {
           seriesBarDistance: 10,
           axisX: {
@@ -154,13 +160,6 @@ export default {
           },
           height: "245px"
         }
-      },
-      preferencesChart: {
-        data: {
-          labels: ["62%", "32%", "6%"],
-          series: [62, 32, 6]
-        },
-        options: {}
       }
     };
   }

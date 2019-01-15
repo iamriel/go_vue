@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"strings"
@@ -22,6 +23,11 @@ type StatsCard struct {
 	Value   int       `json:"value"`
 	Unit    string    `json:"unit"`
 	Updated time.Time `json:"updated"`
+}
+
+func randomNumber(min int, max int) int {
+	max = max - min
+	return rand.Intn(max) + min
 }
 
 func login(c echo.Context) error {
@@ -83,11 +89,11 @@ func cards(c echo.Context) error {
 }
 
 func usersBehavior(c echo.Context) error {
-	type UserBehaviors struct {
+	type UsersBehavior struct {
 		Labels []string `json:"labels"`
 		Series [][]int  `json:"series"`
 	}
-	data := UserBehaviors{
+	data := UsersBehavior{
 		Labels: []string{
 			"9:00AM",
 			"12:00AM",
@@ -114,6 +120,68 @@ func usersBehavior(c echo.Context) error {
 	return c.JSON(http.StatusOK, data)
 }
 
+func emailStatistics(c echo.Context) error {
+	type EmailStats struct {
+		Labels []string  `json:"labels"`
+		Series []float32 `json:"series"`
+	}
+	open := float32(randomNumber(100, 200))
+	bounce := float32(randomNumber(100, 200))
+	unsubscribe := float32(randomNumber(100, 200))
+	total := open + bounce + unsubscribe
+
+	openPercent := open / total * 100
+	bouncePercent := bounce / total * 100
+	unsubscribePercent := unsubscribe / total * 100
+
+	data := EmailStats{
+		Labels: []string{
+			fmt.Sprintf("%f%%", openPercent),
+			fmt.Sprintf("%f%%", bouncePercent),
+			fmt.Sprintf("%f%%", unsubscribePercent),
+		},
+		Series: []float32{
+			openPercent,
+			bouncePercent,
+			unsubscribePercent,
+		},
+	}
+	return c.JSON(http.StatusOK, data)
+}
+
+func salesData(c echo.Context) error {
+	type SalesData struct {
+		Labels []string `json:"labels"`
+		Series [][]int    `json:"series"`
+	}
+	data := SalesData{
+		Labels: []string{
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"Mai",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		},
+		Series: [][]int{},
+	}
+	product1 := []int{}
+	product2 := []int{}
+	for range [12]int{} {
+		product1 = append(product1, randomNumber(200, 900))
+		product2 = append(product2, randomNumber(200, 900))
+	}
+	data.Series = append(data.Series, product1)
+	data.Series = append(data.Series, product2)
+	return c.JSON(http.StatusOK, data)
+}
+
 func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
@@ -133,5 +201,7 @@ func main() {
 	e.POST("/login", login)
 	e.GET("/statistics/cards", cards)
 	e.GET("/statistics/users-behavior", usersBehavior)
+	e.GET("/statistics/email", emailStatistics)
+	e.GET("/statistics/sales", salesData)
 	e.Logger.Fatal(e.Start(":1323"))
 }

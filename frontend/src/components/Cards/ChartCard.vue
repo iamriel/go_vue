@@ -13,7 +13,7 @@
       </p>
     </template>
     <div>
-      <div :id="chartId" class="ct-chart"></div>
+      <div :id="chartId" class="ct-chart" ref="chart"></div>
       <div class="footer">
         <div class="chart-legend">
           <slot name="legend"></slot>
@@ -37,6 +37,10 @@ export default {
     Card
   },
   props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
     footerText: {
       type: String,
       default: ""
@@ -96,7 +100,7 @@ export default {
     },
     getRandomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    },
   },
   mounted() {
     this.updateChartId();
@@ -106,6 +110,10 @@ export default {
         this.initChart(ChartistLib);
       });
     });
+  },
+  watch: {
+    loading (val) {
+    }
   }
 };
 </script>
