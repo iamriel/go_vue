@@ -25,23 +25,27 @@
   </div>
 </template>
 <script>
-  export default {
-    inheritAttrs: false,
-    name: "fg-input",
-    props: {
-      label: String,
-      value: [String, Number],
-      addonRightIcon: String,
-      addonLeftIcon: String
-    },
-    computed: {
-      hasIcon() {
-        const { addonRight, addonLeft } = this.$slots;
-        return addonRight !== undefined || addonLeft !== undefined || this.addonRightIcon !== undefined || this.addonLeftIcon !== undefined;
-      }
+export default {
+  inheritAttrs: false,
+  name: "fg-input",
+  props: {
+    label: String,
+    value: [String, Number],
+    addonRightIcon: String,
+    addonLeftIcon: String
+  },
+  computed: {
+    hasIcon() {
+      const { addonRight, addonLeft } = this.$slots;
+      return (
+        addonRight !== undefined ||
+        addonLeft !== undefined ||
+        this.addonRightIcon !== undefined ||
+        this.addonLeftIcon !== undefined
+      );
     }
   }
+};
 </script>
 <style>
-
 </style>

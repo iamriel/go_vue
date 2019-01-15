@@ -20,7 +20,7 @@
 </template>
 <script>
 export default {
-  name: 'paper-table',
+  name: "paper-table",
   props: {
     columns: Array,
     data: Array,

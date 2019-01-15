@@ -86,7 +86,7 @@
   </card>
 </template>
 <script>
-import NotificationTemplate from './Notifications/NotificationTemplate';
+import NotificationTemplate from "./Notifications/NotificationTemplate";
 
 export default {
   data() {

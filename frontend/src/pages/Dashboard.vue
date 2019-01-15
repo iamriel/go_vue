@@ -1,6 +1,19 @@
 <template>
   <div>
 
+    <div class="row justify-content-end my-3">
+      <div class="col-12">
+        <date-picker
+          v-model="dateRange"
+          @input="updateData"
+          class="float-right"
+          confirm
+          range
+          lang="en"
+        ></date-picker>
+      </div>
+    </div>
+
     <!--Stats cards-->
     <div class="row">
       <div class="col-md-6 col-xl-3" v-for="stats in cardsData" :key="stats.title">
@@ -21,7 +34,6 @@
 
     <!--Charts-->
     <div class="row">
-
       <div class="col-12">
         <chart-card
           v-if="!isFetchingUsersBehavior"
@@ -82,60 +94,92 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { StatsCard, ChartCard } from '@/components/index';
+import { mapActions, mapGetters } from "vuex";
+import { StatsCard, ChartCard } from "@/components/index";
 
-import Chartist from 'chartist';
+import Chartist from "chartist";
+import DatePicker from "vue2-datepicker";
 
 export default {
   components: {
     StatsCard,
-    ChartCard
+    ChartCard,
+    DatePicker
   },
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
    */
   methods: {
-    ...mapActions('statistics', ['fetchCardsData']),
-    fetchUsersBehavior () {
-      this.isFetchingUsersBehavior = true
-      this.$store.dispatch('statistics/fetchUsersBehavior').catch(err => {
-        console.log(err)
-      }).finally(() => {
-        this.isFetchingUsersBehavior = false
-      })
+    ...mapActions("statistics", ["fetchCardsData"]),
+    fetchUsersBehavior() {
+      this.isFetchingUsersBehavior = true;
+      this.$store
+        .dispatch("statistics/fetchUsersBehavior", this.dateRangePayload)
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isFetchingUsersBehavior = false;
+        });
     },
-    fetchEmailStatistics () {
-      this.isFetchingEmailStatistics = true
-      this.$store.dispatch('statistics/fetchEmailStatistics').catch(err => {
-        console.log(err)
-      }).finally(() => {
-        this.isFetchingEmailStatistics = false
-      })
+    fetchEmailStatistics() {
+      this.isFetchingEmailStatistics = true;
+      this.$store
+        .dispatch("statistics/fetchEmailStatistics", this.dateRangePayload)
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isFetchingEmailStatistics = false;
+        });
     },
-    fetchSalesData () {
-      this.isFetchingEmailStatistics = true
-      this.$store.dispatch('statistics/fetchSalesData').catch(err => {
-        console.log(err)
-      }).finally(() => {
-        this.isFetchingSalesData = false
-      })
+    fetchSalesData() {
+      this.isFetchingEmailStatistics = true;
+      this.$store
+        .dispatch("statistics/fetchSalesData", this.dateRangePayload)
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isFetchingSalesData = false;
+        });
+    },
+    updateData() {
+      this.fetchCardsData();
+      this.fetchUsersBehavior();
+      this.fetchEmailStatistics();
+      this.fetchSalesData();
     }
   },
-  mounted () {
-    this.fetchCardsData()
-    this.fetchUsersBehavior()
-    this.fetchEmailStatistics()
-    this.fetchSalesData()
+  mounted() {
+    this.updateData();
   },
   computed: {
-    ...mapGetters('statistics', ['cardsData', 'usersBehavior', 'emailStatistics', 'salesData'])
+    ...mapGetters("statistics", [
+      "cardsData",
+      "usersBehavior",
+      "emailStatistics",
+      "salesData"
+    ]),
+    startDate() {
+      return this.dateRange[0].toISOString();
+    },
+    endDate() {
+      return this.dateRange[1].toISOString();
+    },
+    dateRangePyalod() {
+      return {
+        start: this.startDate,
+        end: this.endDate
+      };
+    }
   },
   data() {
     return {
       isFetchingUsersBehavior: true,
       isFetchingEmailStatistics: true,
       isFetchingSalesData: true,
+      dateRange: [new Date(), new Date()],
       usersChart: {
         options: {
           low: 0,

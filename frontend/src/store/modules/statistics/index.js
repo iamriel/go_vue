@@ -1,6 +1,6 @@
-import mutations from './mutations'
-import * as actions from './actions'
-import * as getters from './getters'
+import mutations from "./mutations";
+import * as actions from "./actions";
+import * as getters from "./getters";
 
 const initialState = {
   cardsData: [{}],
@@ -16,7 +16,7 @@ const initialState = {
     labels: [],
     series: []
   }
-}
+};
 
 export default {
   namespaced: true,
@@ -24,4 +24,4 @@ export default {
   getters,
   actions,
   mutations
-}
+};

@@ -21,10 +21,10 @@ export default {
       default: true
     },
     addLink: {
-      default: ()=>{}
+      default: () => {}
     },
     removeLink: {
-      default: ()=>{}
+      default: () => {}
     }
   },
   props: {
@@ -52,7 +52,7 @@ export default {
   },
   beforeDestroy() {
     if (this.$el && this.$el.parentNode) {
-      this.$el.parentNode.removeChild(this.$el)
+      this.$el.parentNode.removeChild(this.$el);
     }
     if (this.removeLink) {
       this.removeLink(this);
