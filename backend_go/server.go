@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/leekchan/timeutil"
 )
 
 type User struct {
@@ -39,9 +40,13 @@ func login(c echo.Context) error {
 	return c.JSON(http.StatusOK, u)
 }
 
-func cards(c echo.Context) error {
-	currentDateTime := time.Now()
+func randomUpdatedValue() time.Time {
+	base := time.Now()
+	td := timeutil.Timedelta{Minutes: time.Duration(-rand.Intn(60))}
+	return base.Add(td.Duration())
+}
 
+func cards(c echo.Context) error {
 	data := []StatsCard{
 		StatsCard{
 			Type:    "warning",
@@ -49,7 +54,7 @@ func cards(c echo.Context) error {
 			Title:   "Capacity",
 			Value:   rand.Intn(500),
 			Unit:    "GB",
-			Updated: currentDateTime,
+			Updated: randomUpdatedValue(),
 		},
 		StatsCard{
 			Type:    "success",
@@ -57,23 +62,55 @@ func cards(c echo.Context) error {
 			Title:   "Revenue",
 			Value:   rand.Intn(500),
 			Unit:    "USD",
-			Updated: currentDateTime,
+			Updated: randomUpdatedValue(),
 		},
 		StatsCard{
 			Type:    "danger",
 			Icon:    "ti-pulse",
 			Title:   "Errors",
 			Value:   rand.Intn(100),
-			Updated: currentDateTime,
+			Updated: randomUpdatedValue(),
 		},
 		StatsCard{
 			Type:    "info",
 			Icon:    "ti-twitter-alt",
 			Title:   "Followers",
 			Value:   rand.Intn(200),
-			Updated: currentDateTime,
+			Updated: randomUpdatedValue(),
 		},
 	}
+	return c.JSON(http.StatusOK, data)
+}
+
+func usersBehavior(c echo.Context) error {
+	type UserBehaviors struct {
+		Labels []string `json:"labels"`
+		Series [][]int  `json:"series"`
+	}
+	data := UserBehaviors{
+		Labels: []string{
+			"9:00AM",
+			"12:00AM",
+			"3:00PM",
+			"6:00PM",
+			"9:00PM",
+			"12:00PM",
+			"3:00AM",
+			"6:00AM",
+		},
+		Series: [][]int{},
+	}
+	user1 := []int{}
+	user2 := []int{}
+	user3 := []int{}
+	for range [8]int{} {
+		user1 = append(user1, rand.Intn(900))
+		user2 = append(user2, rand.Intn(900))
+		user3 = append(user3, rand.Intn(900))
+	}
+	data.Series = append(data.Series, user1)
+	data.Series = append(data.Series, user2)
+	data.Series = append(data.Series, user3)
 	return c.JSON(http.StatusOK, data)
 }
 
@@ -95,5 +132,6 @@ func main() {
 	})
 	e.POST("/login", login)
 	e.GET("/statistics/cards", cards)
+	e.GET("/statistics/users-behavior", usersBehavior)
 	e.Logger.Fatal(e.Start(":1323"))
 }

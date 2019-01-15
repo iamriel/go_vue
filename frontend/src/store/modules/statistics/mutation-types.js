@@ -1,1 +1,2 @@
 export const SET_CARDS_DATA = 'SET_CARDS_DATA'
+export const SET_USERS_BEHAVIOR = 'SET_USERS_BEHAVIOR'

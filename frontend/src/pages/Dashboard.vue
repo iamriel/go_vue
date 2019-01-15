@@ -13,7 +13,7 @@
             {{ stats.value }} {{ stats.unit }}
           </div>
           <div class="stats" slot="footer">
-            <i class="ti-reload"></i> {{ stats.updated | moment("from", "now") }}
+            <i class="ti-reload"></i> {{ stats.updated | moment("from") }}
           </div>
         </stats-card>
       </div>
@@ -23,12 +23,15 @@
     <div class="row">
 
       <div class="col-12">
-        <chart-card title="Users behavior"
-                    sub-title="24 Hours performance"
-                    :chart-data="usersChart.data"
-                    :chart-options="usersChart.options">
+        <chart-card
+          v-if="!isFetchingUsersBehavior"
+          title="Users behavior"
+          sub-title="24 Hours performance"
+          :chart-data="usersBehavior"
+          :chart-options="usersChart.options"
+        >
           <span slot="footer">
-            <i class="ti-reload"></i> Updated 3 minutes ago
+            <i class="ti-reload"></i> {{ new Date() | moment("from") }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Open
@@ -87,68 +90,27 @@ export default {
    * Chart data used to render stats, charts. Should be replaced with server data
    */
   methods: {
-    ...mapActions('statistics', ['fetchCardsData'])
+    ...mapActions('statistics', ['fetchCardsData']),
+    fetchUsersBehavior () {
+      this.isFetchingUsersBehavior = true
+      this.$store.dispatch('statistics/fetchUsersBehavior').catch(err => {
+        console.log(err)
+      }).finally(() => {
+        this.isFetchingUsersBehavior = false
+      })
+    }
   },
   mounted () {
     this.fetchCardsData()
+    this.fetchUsersBehavior()
   },
   computed: {
-    ...mapGetters('statistics', ['cardsData'])
+    ...mapGetters('statistics', ['cardsData', 'usersBehavior'])
   },
   data() {
     return {
-      statsCards: [
-        {
-          type: "warning",
-          icon: "ti-server",
-          title: "Capacity",
-          value: "105GB",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        },
-        {
-          type: "success",
-          icon: "ti-wallet",
-          title: "Revenue",
-          value: "$1,345",
-          footerText: "Last day",
-          footerIcon: "ti-calendar"
-        },
-        {
-          type: "danger",
-          icon: "ti-pulse",
-          title: "Errors",
-          value: "23",
-          footerText: "In the last hour",
-          footerIcon: "ti-timer"
-        },
-        {
-          type: "info",
-          icon: "ti-twitter-alt",
-          title: "Followers",
-          value: "+45",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        }
-      ],
+      isFetchingUsersBehavior: true,
       usersChart: {
-        data: {
-          labels: [
-            "9:00AM",
-            "12:00AM",
-            "3:00PM",
-            "6:00PM",
-            "9:00PM",
-            "12:00PM",
-            "3:00AM",
-            "6:00AM"
-          ],
-          series: [
-            [287, 385, 490, 562, 594, 626, 698, 895, 952],
-            [67, 152, 193, 240, 387, 435, 535, 642, 744],
-            [23, 113, 67, 108, 190, 239, 307, 410, 410]
-          ]
-        },
         options: {
           low: 0,
           high: 1000,

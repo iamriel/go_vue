@@ -14,3 +14,14 @@ export const fetchCardsData = ({ commit }) => {
     })
   })
 }
+
+export const fetchUsersBehavior = ({ commit }) => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${API_URL}/statistics/users-behavior`).then(response => {
+      commit(types.SET_USERS_BEHAVIOR, response.data)
+      resolve(response)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
