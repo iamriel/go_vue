@@ -33,6 +33,10 @@ It will automatically install the package dependencies and run the server on `ht
 
 API_URL is set in `.env.dev` file, so if the api url is not the same as the default, please change it also.  Another thing, in the backend (`server.go`), I only allowed CORS from `localhost:8080` so if the front end url changes, please do change the CORS settings in `server.go` file also.
 
+## Issues
+
+The `logo.svg` file seems corrupted on my end, I can't open it in my image viewer and when I open it in vim or other text editors, it is showing some garbage characters but opening it in emacs works fine but then switching to text mode shows the garbage characters again. To continue the task, I just took a screenshot of the login image and used it as a logo instead.
+
 ## Credentials
 
 email: test@email.com
