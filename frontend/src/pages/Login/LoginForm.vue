@@ -40,6 +40,7 @@
 
     <div class="px-0 py-5">
       <p-button
+        :disabled="loading"
         @click.native.prevent="login"
         class="btn-login"
         size="sm"
@@ -96,8 +97,29 @@ export default {
     clearErrors() {
       this.errors = [];
     },
+    appendError(field, message) {
+      this.errors.push({
+        "field": field,
+        "message": message
+      });
+    },
+    isValid() {
+      let isValid = true
+      if (!this.formData.email) {
+        isValid = false
+        this.appendError("email", "Email is required")
+      }
+      if (!this.formData.password) {
+        isValid = false
+        this.appendError("password", "Password is required")
+      }
+      return isValid
+    },
     login() {
       this.clearErrors();
+      if (!this.isValid()) {
+        return
+      }
       this.loading = true;
       this.$store
         .dispatch("auth/login", this.formData)
