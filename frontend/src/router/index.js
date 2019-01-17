@@ -20,7 +20,11 @@ router.beforeEach((to, from, next) => {
       return next();
     }
   } else {
-    return next();
+    if (to.matched.some(m => m.meta.requiresUnauthenticated)) {
+      return next({ name: "dashboard" });
+    } else {
+      return next();
+    }
   }
 });
 

@@ -68,6 +68,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
+    meta: { requiresUnauthenticated: true },
     component: Login
   },
   {
