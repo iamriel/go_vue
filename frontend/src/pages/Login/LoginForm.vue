@@ -13,8 +13,10 @@
     </div>
 
     <div class="form-group form-check show-password d-none d-sm-block">
-      <i class="fa fa-eye fa-lg"></i>
-      <label class="form-check-label" for="show-password">Show password</label>
+      <i :class="showPasswordIconClass"></i>
+      <label class="form-check-label" for="show-password" @click="toggleShowPassword">
+        {{ showPasswordLabel }}
+      </label>
     </div>
 
     <div class="form-group">
@@ -23,15 +25,17 @@
         v-model="formData.password"
         :error-message="passwordError.message"
         :class="{'has-error': passwordError.message}"
+        :type="showPassword ? 'text' : 'password'"
         @keyup="keyup"
-        type="password"
         label="Password"
       ></fg-input>
     </div>
 
     <div class="form-group form-check show-password d-sm-none">
-      <i class="fa fa-eye fa-lg"></i>
-      <label class="form-check-label" for="show-password">Show password</label>
+      <i :class="showPasswordIconClass"></i>
+      <label class="form-check-label" for="show-password" @click="toggleShowPassword">
+        {{ showPasswordLabel }}
+      </label>
     </div>
 
     <div class="px-0 py-5">
@@ -58,6 +62,7 @@ export default {
   data() {
     return {
       loading: false,
+      showPassword: false,
       formData: {
         email: "",
         password: ""
@@ -74,14 +79,25 @@ export default {
     },
     passwordError() {
       return this.errors.find(error => error.field === "password") || {};
+    },
+    showPasswordIconClass() {
+      return {
+        fa: true,
+        "fa-lg": true,
+        "fa-eye": !this.showPassword,
+        "fa-eye-slash": this.showPassword
+      };
+    },
+    showPasswordLabel() {
+      return this.showPassword ? "Hide password" : "Show password";
     }
   },
   methods: {
-    clearErrors () {
-      this.errors = []
+    clearErrors() {
+      this.errors = [];
     },
     login() {
-      this.clearErrors()
+      this.clearErrors();
       this.loading = true;
       this.$store
         .dispatch("auth/login", this.formData)
@@ -97,10 +113,13 @@ export default {
     },
     keyup(event) {
       if (event.keyCode === 13) {
-        this.login()
+        this.login();
       } else {
-        this.clearErrors()
+        this.clearErrors();
       }
+    },
+    toggleShowPassword() {
+      this.showPassword = !this.showPassword;
     }
   }
 };

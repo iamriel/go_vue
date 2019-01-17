@@ -17,6 +17,6 @@
 
 <script>
 export default {
-name: "SvgPlantsRight"
+  name: "SvgPlantsRight"
 };
 </script>

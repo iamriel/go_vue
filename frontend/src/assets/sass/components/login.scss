@@ -164,4 +164,9 @@
 
 .show-password {
   float: right;
+  cursor: pointer;
+
+  label {
+    cursor: pointer;
+  }
 }
