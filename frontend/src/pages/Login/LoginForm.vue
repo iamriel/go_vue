@@ -2,9 +2,11 @@
   <form class="login-form" @submit.prevent>
     <div class="form-group">
       <fg-input
+        id="email"
         v-model="formData.email"
         :error-message="emailError.message"
         :class="{'has-error': emailError.message}"
+        @keyup="keyup"
         type="email"
         label="Email"
       ></fg-input>
@@ -17,9 +19,11 @@
 
     <div class="form-group">
       <fg-input
+        id="password"
         v-model="formData.password"
         :error-message="passwordError.message"
         :class="{'has-error': passwordError.message}"
+        @keyup="keyup"
         type="password"
         label="Password"
       ></fg-input>
@@ -73,8 +77,11 @@ export default {
     }
   },
   methods: {
+    clearErrors () {
+      this.errors = []
+    },
     login() {
-      this.errors = [];
+      this.clearErrors()
       this.loading = true;
       this.$store
         .dispatch("auth/login", this.formData)
@@ -87,6 +94,13 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    keyup(event) {
+      if (event.keyCode === 13) {
+        this.login()
+      } else {
+        this.clearErrors()
+      }
     }
   }
 };
