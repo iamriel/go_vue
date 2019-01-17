@@ -60,4 +60,17 @@ export default {
     color: #eb5e28;
   }
 }
+
+.form-control {
+  background: #F7F7F7 !important;
+  border: 1px solid #E9E9E9 !important;
+
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #F2BF00;
+    outline: none;
+    box-shadow: 0px 0px 2px #F2BF00;
+  }
+}
 </style>
