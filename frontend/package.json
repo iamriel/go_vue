@@ -19,7 +19,7 @@
     "moment-timezone": "^0.5.23",
     "vue": "^2.5.13",
     "vue-clickaway": "^2.1.0",
-    "vue-moment": "^4.0.0",
+    "vue-moment": "^4.1.0",
     "vue-notifyjs": "^0.3.0",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.22",
